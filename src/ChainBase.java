@@ -42,11 +42,15 @@ public class ChainBase {
 
     public String generateSentence(int length){
         StringBuilder output = new StringBuilder();
-        for(int i = 0; i< length; i++){
-            output.append(getRandomWord());
+        String word = getRandomWord();
+        output.append(word).append(" ");
+        for(int i = 1; i< length; i++){
+            String next = words.get(word).getRandomWord();
+            output.append(next);
             if(i != length-1){
                 output.append(" ");
             }
+            word = next;
         }
         return output.toString();
     }

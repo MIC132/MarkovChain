@@ -15,7 +15,7 @@ public class Parser {
             StringBuilder buffer = new StringBuilder();
             for(String line; (line = br.readLine()) != null; ){
                 buffer.append(" ");
-                buffer.append(line);
+                buffer.append(line.toLowerCase());
                 int index = buffer.toString().indexOf(".");
                 if(index != -1){
                     String[] words = buffer.substring(0, index).split("\\W+");
