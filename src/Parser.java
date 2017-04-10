@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by MIC on 2017-04-06.
@@ -8,8 +11,8 @@ import java.io.IOException;
 public class Parser {
     private Parser(){}
 
-    public static ChainBase parseFile(String filename){
-        ChainBase output = new ChainBase();
+    public static ChainBase parseFile(String filename, int depth){
+        ChainBase output = new ChainBase(depth);
 
         try(BufferedReader br = new BufferedReader(new FileReader(filename))){
             StringBuilder buffer = new StringBuilder();
@@ -18,11 +21,14 @@ public class Parser {
                 buffer.append(line.toLowerCase());
                 int index = buffer.toString().indexOf(".");
                 if(index != -1){
-                    String[] words = buffer.substring(0, index).split("\\W+");
-                    //output.addWord(words[1]);
-                    for(int i = 2; i<words.length; i++){
-                        output.addWord(words[i-1]);
-                        output.words.get(words[i-1]).addWord(words[i]);
+                    List<String> words = new ArrayList<>(Arrays.asList(buffer.substring(0, index).split("\\W+")));
+                    if(!words.isEmpty()){
+                        //words[0] is space for some reason, so we remove it
+                        words.remove(0);
+                        for(int i = 0; i < words.size(); i++){
+                            int start = Math.max(0, i - (depth-1));
+                            output.addWord(words.subList(start, i+1));
+                        }
                     }
                     buffer.delete(0, index+1);
                 }
