@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 public abstract class ChainElement {
     private Random rng = new Random();
     protected HashMap<String, ChainWord> words = new HashMap<>();
-    protected int count = 1;
+    protected int count = 0;
+    protected int sentenceEndCount = 0;
     protected int followCount;
     protected final int depth;
 
@@ -19,21 +20,31 @@ public abstract class ChainElement {
     }
 
     void addWord(String word){
+        addWord(word, false);
+    }
+
+    void addWord(String word, boolean senteceEnd){
         List<String> tmp = new ArrayList<>();
         tmp.add(word);
-        addWord(tmp);
+        addWord(tmp, senteceEnd);
     }
 
     void addWord(List<String> wordList){
+        addWord(wordList, false);
+    }
+
+    void addWord(List<String> wordList, boolean sentenceEnd){
         String word = wordList.get(0);
         ChainWord target = words.computeIfAbsent(word, w -> new ChainWord(w, depth - 1));
         if(wordList.size() == 1){
-           target.count++;
-           followCount++;
+            target.count++;
+            followCount++;
+            if(sentenceEnd){
+                target.sentenceEndCount++;
+            }
         }else{
             target.addWord(wordList.subList(1, wordList.size()));
         }
-
     }
 
     public List<String> getFrequentFollowing(String word, int amount){

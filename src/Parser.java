@@ -27,7 +27,11 @@ public class Parser {
                         words.remove(0);
                         for(int i = 0; i < words.size(); i++){
                             int start = Math.max(0, i - (depth-1));
-                            output.addWord(words.subList(start, i+1));
+                            if(i == (words.size()-1)){
+                                output.addWord(words.subList(start, i+1), true);
+                            }else {
+                                output.addWord(words.subList(start, i+1));
+                            }
                         }
                     }
                     buffer.delete(0, index+1);
