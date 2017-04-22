@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
  * Created by MIC on 2017-04-10.
  */
 public abstract class ChainElement {
-    private Random rng = new Random();
+    private static Random rng = new Random();
     protected HashMap<String, ChainWord> words = new HashMap<>();
     protected int count = 0;
     protected int sentenceEndCount = 0;
