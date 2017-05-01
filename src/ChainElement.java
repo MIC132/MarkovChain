@@ -10,9 +10,13 @@ import java.util.stream.Collectors;
 public abstract class ChainElement {
     private static Random rng = new Random();
     protected HashMap<String, ChainWord> words = new HashMap<>();
+    //Counts how many times a word has occured
     protected int count = 0;
+    //Counts how many times a word was the last word of a sentence
     protected int sentenceEndCount = 0;
+    //Sum of "count" of all words that follow this one. Used for random generation
     protected int followCount;
+    //How deep is the tree, counting from this word. Last layer has 0, etc.
     protected final int depth;
 
     protected ChainElement(int depth) {
@@ -28,6 +32,9 @@ public abstract class ChainElement {
         tmp.add(word);
         addWord(tmp, senteceEnd);
     }
+
+    /*The list versions accept a list of words, where the last word in the list is the one actually being added, and the others are a sequence of predecessors.
+    If any of the words in the list is not in the structure, it gets added dynamically*/
 
     void addWord(List<String> wordList){
         addWord(wordList, false);
@@ -69,7 +76,7 @@ public abstract class ChainElement {
     public String getRandomWord(){
         int index = rng.nextInt(followCount);
         for(ChainWord e : words.values()){
-            if(index < e.getCount()){
+            if(e.getCount() > 0 && index < e.getCount()){
                 return e.word;
             }else{
                 index -= e.getCount();
