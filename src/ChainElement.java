@@ -20,6 +20,8 @@ public abstract class ChainElement {
         this.depth = depth;
     }
 
+    /*The string versions simply add the word as following to this word, and/or increment it's count by one*/
+
     void addWord(String word){
         addWord(word, false);
     }
@@ -56,6 +58,9 @@ public abstract class ChainElement {
         tmp.add(word);
         return getFrequentFollowing(tmp, amount);
     }
+
+    /*The list version gives frequently following words after a chain of words.
+    So if the list is [A,B,C] it will give words that follow C if that C follows B that follows A. And so on.*/
 
     public List<String> getFrequentFollowing(List<String> wordList, int amount){
         if(wordList.isEmpty()){

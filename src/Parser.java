@@ -19,7 +19,7 @@ public class Parser {
         try(BufferedReader br = new BufferedReader(new FileReader(filename))){
             StringBuilder buffer = new StringBuilder();
             for(String line; (line = br.readLine()) != null; ){
-                buffer.append(" ");
+                buffer.append(" "); //Needed, otherwise there will be no space between end of one line and start of next
                 buffer.append(line.toLowerCase());
                 int index = buffer.toString().indexOf(".");
                 if(index != -1){
@@ -38,7 +38,7 @@ public class Parser {
                             }
                         }
                     }
-                    buffer.delete(0, index+1);
+                    buffer.delete(0, index+1); //Removes the parsed sentece, including the period.
                 }
             }
         } catch (IOException e) {
