@@ -103,6 +103,36 @@ public abstract class ChainElement {
         }
     }
 
+    //Works like all the list versions.
+
+    public String getWeightedNextTop(List<String> wordList, int count){
+        List<ChainWord> top = getFrequentFollowingElements(wordList, count); //<-- this is already sorted
+        int index = top.stream().map(ChainElement::getCount).mapToInt(Integer::intValue).sum();
+        for(ChainWord e : top){
+            if(index < e.getCount()){
+                return e.word;
+            }else{
+                index -= e.getCount();
+            }
+        }
+        return "";
+    }
+
+    //Currently only helper for above function.
+
+    List<ChainWord> getFrequentFollowingElements(List<String> wordList, int amount){
+        if(wordList.isEmpty()){
+            List<ChainWord> list = words.values().stream().sorted((x,y) -> y.getCount() - x.getCount()).collect(Collectors.toList());
+            return list.subList(0, amount);
+        }else{
+            ChainWord target = words.get(wordList.get(0));
+            if(target == null){
+                return null;
+            }
+            return target.getFrequentFollowingElements(wordList.subList(1, wordList.size()),amount);
+        }
+    }
+
     public String generateSentence(int length){
         List<String> sentence = new ArrayList<>();
         sentence.add(getRandomWord());
