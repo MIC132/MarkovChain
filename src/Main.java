@@ -3,8 +3,12 @@
  */
 public class Main {
     public static void main(String[] args) {
-        ChainBase base = Parser.parseFile("lovecraft.txt",2);
+        ChainBase base = Parser.parseFile("lovecraft.txt",3);
         System.out.println(base.getFrequentFollowing("the", 10));
-        System.out.println(base.generateSentence(20));
+        System.out.println(base.generateGreaterSentence(20));
+        System.out.println(base.generateGreaterSentence(20));
+        System.out.println(base.generateGreaterSentence(20));
+        System.out.println(base.generateGreaterSentence(20));
+        System.out.println(base.generateGreaterSentence(20));
     }
 }

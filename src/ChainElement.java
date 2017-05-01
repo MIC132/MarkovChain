@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -76,7 +73,7 @@ public abstract class ChainElement {
     public String getRandomWord(){
         int index = rng.nextInt(followCount);
         for(ChainWord e : words.values()){
-            if(e.getCount() > 0 && index < e.getCount()){
+            if(index < e.getCount()){
                 return e.word;
             }else{
                 index -= e.getCount();
@@ -114,6 +111,45 @@ public abstract class ChainElement {
         }
         output.append(".");
         return output.toString();
+    }
+
+    public String generateGreaterSentence(int maxLength){
+        List<String> sentence = new ArrayList<>();
+        sentence.add(getRandomWord());
+        String word = getSingleNext(sentence.get(0));
+        do{
+            sentence.add(word);
+            word = getDoubleNext(sentence.get(sentence.size()-2), sentence.get(sentence.size()-1));
+        } while (sentence.size() < maxLength && word != null);
+
+        StringBuilder output = new StringBuilder();
+        output.append(sentence.get(0).substring(0,1).toUpperCase()).append(sentence.get(0).substring(1));
+        for(int i = 1; i<sentence.size(); i++){
+            output.append(" ").append(sentence.get(i));
+        }
+        output.append(".");
+        return output.toString();
+    }
+
+    public String getSingleNext(String word){
+        List<String> possible = new ArrayList<>(words.get(word).words.keySet());
+        int number = (new Random()).nextInt(possible.size());
+        return possible.get(number);
+    }
+
+    public String getDoubleNext(String word1, String word2){
+        ChainWord firstWord = words.get(word1);
+        if (firstWord == null)
+            return null;
+        ChainWord secondWord = firstWord.words.get(word2);
+        if (secondWord == null)
+            return null;
+        List<String> possible = new ArrayList<>(secondWord.words.keySet());
+        if (possible.size() < 1)
+            return null;
+
+        int number = (new Random()).nextInt(possible.size());
+        return possible.get(number);
     }
 
 
