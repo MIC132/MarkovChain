@@ -2,13 +2,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by MIC on 2017-04-06.
  */
 public class Parser {
+    private static Pattern pattern = Pattern.compile("(?!'.*')\\b[\\w-']+\\b");
     private Parser(){}
 
     public static ChainBase parseFile(String filename, int depth){
@@ -21,10 +23,12 @@ public class Parser {
                 buffer.append(line.toLowerCase());
                 int index = buffer.toString().indexOf(".");
                 if(index != -1){
-                    List<String> words = new ArrayList<>(Arrays.asList(buffer.substring(0, index).split("\\W+")));
+                    Matcher m = pattern.matcher(buffer);
+                    List<String> words = new ArrayList<>();
+                    while(m.find()){
+                        words.add(m.group());
+                    }
                     if(!words.isEmpty()){
-                        //words[0] is space for some reason, so we remove it
-                        words.remove(0);
                         for(int i = 0; i < words.size(); i++){
                             int start = Math.max(0, i - (depth-1));
                             if(i == (words.size()-1)){
