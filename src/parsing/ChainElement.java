@@ -1,3 +1,5 @@
+package parsing;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,7 +67,11 @@ public abstract class ChainElement {
     public List<String> getFrequentFollowing(List<String> wordList, int amount){
         if(wordList.isEmpty()){
             List<String> list = words.values().stream().sorted((x,y) -> y.getCount() - x.getCount()).map(x -> x.word).collect(Collectors.toList());
-            return list.subList(0, amount);
+            if(amount > list.size()){
+                return list;
+            }else{
+                return list.subList(0, amount);
+            }
         }else{
             ChainWord target = words.get(wordList.get(0));
             if(target == null){

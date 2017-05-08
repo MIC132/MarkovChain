@@ -1,16 +1,16 @@
+package parsing;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by MIC on 2017-04-06.
  */
 public class Parser {
-    private static Pattern pattern = Pattern.compile("(?!'.*')\\b[\\w-']+\\b");
     private Parser(){}
 
     public static ChainBase parseFile(String filename, int depth){
