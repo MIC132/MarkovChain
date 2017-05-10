@@ -75,7 +75,7 @@ public abstract class ChainElement {
         }else{
             ChainWord target = words.get(wordList.get(0));
             if(target == null){
-                return null;
+                return new ArrayList<>();
             }
             return target.getFrequentFollowing(wordList.subList(1, wordList.size()),amount);
         }

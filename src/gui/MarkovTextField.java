@@ -32,6 +32,10 @@ public class MarkovTextField extends TextField {
                 entriesPopup.hide();
             }else{
                 List<String> follow = base.getFrequentFollowing(words, amount);
+                while(words.size() > 1 && follow.size() < amount){
+                    words.remove(0);
+                    follow.addAll(base.getFrequentFollowing(words, amount - follow.size()));
+                }
                 if(follow != null && !follow.isEmpty()){
                     List<CustomMenuItem> menuItems = new ArrayList<>();
                     for(String s : follow){
