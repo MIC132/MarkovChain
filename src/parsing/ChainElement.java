@@ -54,7 +54,7 @@ public abstract class ChainElement {
                 target.sentenceEndCount++;
             }
         }else{
-            target.addWord(wordList.subList(1, wordList.size()));
+            target.addWord(wordList.subList(1, wordList.size()), sentenceEnd);
         }
     }
 
