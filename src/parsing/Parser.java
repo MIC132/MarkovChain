@@ -25,6 +25,7 @@ public class Parser {
                 if(index != -1){
                     List<String> words = new ArrayList<>(Arrays.asList(buffer.substring(0, index).split("[^\\w-']+")));
                     if(!words.isEmpty()){
+                        words.remove(0);//removes space at the start
                         for(int i = 0; i < words.size(); i++){
                             int start = Math.max(0, i - (depth-1));
                             if(i == (words.size()-1)){
