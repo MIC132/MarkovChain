@@ -23,19 +23,25 @@ public class MarkovTextField extends TextField {
     public MarkovTextField(ChainBase base){
         super();
         textProperty().addListener((observable, oldValue, newValue) -> {
-            List<String> temp = new ArrayList<>(Arrays.asList(getText().split("[^\\w-']+")));
-            List<String> words = new ArrayList<>();
+            List<String> temp = new ArrayList<>(Arrays.asList(getText().split("[^\\w-']+"))); //get text from textfield and split into words
+            List<String> words = new ArrayList<>(); //this next part is needed to put everything into lowercase, since the tree is in lowercase
             for(String s : temp){
                 words.add(s.toLowerCase());
             }
-            if(words.isEmpty()){
+            if(words.isEmpty()){//If the filed is empty (or we just started new sentence) we hide suggestions
                 entriesPopup.hide();
             }else{
-                List<String> follow = base.getFrequentFollowing(words, amount);
-                while(words.size() > 1 && follow.size() < amount){
+                List<String> follow = base.getFrequentFollowing(words, amount); //this gets frequent following with maximum depth of the base, since the function takes care of depths > depth of base
+                while(words.size() > 1 && follow.size() < amount){// then, if we don't get enough suggestions we decrease depth, to get "less accurate" suggestions
                     words.remove(0);
-                    follow.addAll(base.getFrequentFollowing(words, amount - follow.size()));
+                    for(String w : base.getFrequentFollowing(words, amount - follow.size())){ //avoid duplicates
+                        if(!follow.contains(w)){
+                            follow.add(w);
+                        }
+                    }
                 }
+
+                //This part generates the suggestion entries. DO NOT TOUCH. Just add anyhthing that's needed to "follow"
                 if(follow != null && !follow.isEmpty()){
                     List<CustomMenuItem> menuItems = new ArrayList<>();
                     for(String s : follow){
@@ -55,6 +61,7 @@ public class MarkovTextField extends TextField {
                 }else{
                     entriesPopup.hide();
                 }
+                //End of generator
 
             }
         });
