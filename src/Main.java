@@ -6,7 +6,7 @@ import parsing.Parser;
  */
 public class Main {
     public static void main(String[] args) {
-        ChainBase base = Parser.parseFile("lovecraft.txt",3);
+        ChainBase base = Parser.parseFile("lovecraft.txt",2);
         System.out.println(base.getFrequentFollowing("the", 10));
         /*System.out.println(base.generateGreaterSentence(20));
         System.out.println(base.generateGreaterSentence(20));

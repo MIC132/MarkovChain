@@ -42,6 +42,9 @@ public abstract class ChainElement {
     }
 
     void addWord(List<String> wordList, boolean sentenceEnd){
+        if(wordList.size() > depth){
+            wordList = wordList.subList(wordList.size()-depth,wordList.size());
+        }
         String word = wordList.get(0);
         ChainWord target = words.computeIfAbsent(word, w -> new ChainWord(w, depth - 1));
         if(wordList.size() == 1){
