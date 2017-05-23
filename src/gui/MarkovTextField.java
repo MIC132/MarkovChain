@@ -23,7 +23,9 @@ public class MarkovTextField extends TextField {
     public MarkovTextField(ChainBase base){
         super();
         textProperty().addListener((observable, oldValue, newValue) -> {
-            List<String> temp = new ArrayList<>(Arrays.asList(getText().split("[^\\w-']+"))); //get text from textfield and split into words
+            String fieldText = getText();
+            String lastSentence = fieldText.substring(fieldText.lastIndexOf(".")+1).trim();
+            List<String> temp = new ArrayList<>(Arrays.asList(lastSentence.split("[^\\w-']+"))); //get text from textfield and split into words
             List<String> words = new ArrayList<>(); //this next part is needed to put everything into lowercase, since the tree is in lowercase
             for(String s : temp){
                 words.add(s.toLowerCase());
@@ -48,7 +50,7 @@ public class MarkovTextField extends TextField {
                         Label entryLabel = new Label(s);
                         CustomMenuItem item = new CustomMenuItem(entryLabel, true);
                         item.setOnAction((event -> {
-                            setText(getText().concat(" "+s));
+                            setText(getText().trim().concat(" "+s));
                             positionCaret(getText().length());
                         }));
                         menuItems.add(item);
