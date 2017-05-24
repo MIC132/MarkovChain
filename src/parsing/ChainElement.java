@@ -70,6 +70,8 @@ public abstract class ChainElement {
     public List<String> getFrequentFollowing(List<String> wordList, int amount){
         if(wordList.isEmpty()){
             List<String> list = words.values().stream().sorted((x,y) -> y.getCount() - x.getCount()).map(x -> x.word).collect(Collectors.toList());
+            if (sentenceEndCount > count*0.33)
+                list.add(".");
             if(amount > list.size()){
                 return list;
             }else{
